@@ -16,7 +16,9 @@ NEWSPIDER_MODULE = 'tutorial.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'tutorial (+http://www.yourdomain.com)'
+USER_AGENT = 'RezaKarbasi (arzkarbasi@gmail.com)'
+
+AJAXCRAWL_ENABLED = True
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
