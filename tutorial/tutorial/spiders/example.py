@@ -1,50 +1,40 @@
-# -*- coding: utf-8 -*-
 import scrapy
 from ..items import TutorialItem
 from selenium import webdriver
 
 
+Max_List=5
+
 class ExampleSpider(scrapy.Spider):
     name = 'example'
 
+    pageNum = 1
     start_urls = [
-        'https://www.digikala.com/search/category-mobile-phone/?sortby=22']
+        'https://www.digikala.com/search/category-mobile-phone/?pageno=1&sortby=4']
 
-    def __init__(self):
-        self.driver = webdriver.Firefox('/usr/bin/')
-        
     def parse(self, response):
+        print('#####################new list#####################')
+        
         prods = response.css(".is-plp")
 
-        for prod in prods[:2]:
+        for prod in prods:
             link = prod.css(".c-product-box__title a::attr(href)").get()
-            print('wowww')
-            print(link)
             yield response.follow(link, callback=self.parsePage)
 
+        if self.pageNum < Max_List:
+            self.pageNum += 1
+            newUrl = 'https://www.digikala.com/search/category-mobile-phone/?pageno=' + \
+                str(self.pageNum)+'&sortby=4'
+            yield response.follow(newUrl, callback=self.parse)
+
     def parsePage(self, response):
-        self.driver.get('https://www.example.org/abc')
-        
-        panel = response.css(".js-c-box-tabs .c-box-tabs__tab")
-        link = panel[2].css("a::attr(href)").get()
-        
-        print('\n\n\n\n\n')
+
+        print()
         print('-------------------------page------------------------------------')
-        print(panel.css("a::text").extract())
-        print(link)
-        print('\n\n\n\n\n')
-        
-        self.driver.close()
-        
-        yield response.follow(link, callback=self.parseComments)
+        print()
 
-    def parseComments(self, response):
-        print('\n\n\n\n\n\n\n')
-        print('##########################commments####################################')
-        pass
-        # items=TutorialItem()
+        items = TutorialItem()
+        items['name'] = response.css('.c-product__title::text').extract()[0]
+        items['cost'] = response.css('.js-price-value::text').extract()[0]
 
-        # items['cost']=response.css(".js-price-value::text").extract()[0]
-        # items['name']=response.css(".c-product__title::text").extract()[0]
-
-        # yield items
+        yield items
