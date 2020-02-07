@@ -1,6 +1,5 @@
 import scrapy
 from ..items import TutorialItem
-from selenium import webdriver
 
 
 Max_List=5
