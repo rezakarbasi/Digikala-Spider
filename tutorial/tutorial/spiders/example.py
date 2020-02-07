@@ -4,12 +4,15 @@ from ..items import TutorialItem
 
 Max_List=5
 
+## the first url is https://www.digikala.com/search/category-mobile-phone/?pageno=1&sortby=4
+firstUrl='https://www.digikala.com/search/category-mobile-phone/?pageno='
+secondUrl='&sortby=4'
+
 class ExampleSpider(scrapy.Spider):
     name = 'example'
 
     pageNum = 1
-    start_urls = [
-        'https://www.digikala.com/search/category-mobile-phone/?pageno=1&sortby=4']
+    start_urls = [firstUrl+str(1)+secondUrl]
 
     def parse(self, response):
         print('#####################new list#####################')
