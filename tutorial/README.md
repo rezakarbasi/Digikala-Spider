@@ -1,9 +1,3 @@
-to start a scrapy project , run :
-```
-scrapy startproject project-name
-```
-
-
 ## tips :
 - __what i did__ : write basic crawler for digikala that crawl the cellphone list and get price and name of 5 first pages
 - __change lists to crawl__ : by changing *Max_List* parameter in *spiders/example.py*
@@ -28,7 +22,7 @@ this peice of code , run this program and save the result in csv file
 ```
 scrapy shell 'url'
 ```
-this will run and crawl url and then you can see and manipulate resuts like in *ipython notebook*
+this will run and crawl url and then you can see and manipulate results like in *ipython notebook*
 
 ```
 scrapy crawl example
