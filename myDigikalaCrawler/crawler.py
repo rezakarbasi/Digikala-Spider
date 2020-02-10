@@ -3,10 +3,10 @@ import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 
-def crawl_a_page(url):
+
+def crawl_a_page(browser, url):
     maxTry = 30
 
-    browser = webdriver.Chrome('/usr/bin/chromedriver')
     browser.get(url)
     sleep(1)
     browser.find_element_by_css_selector('.c-product__engagement-link').click()
@@ -22,8 +22,6 @@ def crawl_a_page(url):
 
     while page <= endPage:
         tries = 0
-        print('-------------------------page'+str(page) +
-            '-------------------------')
         sleep(2)
         try:
             if tries > maxTry:
@@ -42,16 +40,10 @@ def crawl_a_page(url):
                 dislikes = browser.find_element_by_css_selector(
                     st+' .article .js-comment-dislike').get_attribute('data-counter')
 
-                print(comment)
-                print(data_person)
-                print(likes)
-                print(dislikes)
-                print('\n\n')
+                yield comment, data_person, likes, dislikes
 
         except:
             tries += 1
-
-            print('dastan shod')
             pass
 
         page += 1
@@ -61,10 +53,7 @@ def crawl_a_page(url):
         while True:
             nexPage = pages.find_element_by_css_selector(
                 'ul > li:nth-child('+str(j) + ') a')
-            print(page == int(nexPage.get_attribute('data-page')))
-            print(int(nexPage.get_attribute('data-page')))
             if page == int(nexPage.get_attribute('data-page')):
-                print('-----------------')
                 while True:
                     try:
                         if tries > maxTry:
@@ -75,13 +64,7 @@ def crawl_a_page(url):
                     except:
                         tries += 1
 
-                        print('-------------------')
                         sleep(2)
                         pass
-                print('moved')
                 break
             j += 1
-
-
-    browser.close()
-    print(n)
