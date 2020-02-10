@@ -35,11 +35,16 @@ class DigispiderSpider(scrapy.Spider):
             yield response.follow(newUrl, callback=self.parse)
 
     def parsePage(self, response):
-        # items = TutorialItem()
-        name = response.css('.c-product__title::text').extract()[0]
+        items=ListmakerItem()
+        items['name'] = response.css('.c-product__title::text').extract()[0]
+        items['cost'] = response.css('.js-price-value::text').extract()[0]
+
+        items['name'] = response.css('.c-product__title::text').extract()[0]
+        items['cost'] = response.css('.js-price-value::text').extract()[0]
+
         print()
         print('-----------------------new-page-----------------------')
         print(self.inPage)
         self.inPage+=1
-        print(name)
+        # print(name)
         pass
