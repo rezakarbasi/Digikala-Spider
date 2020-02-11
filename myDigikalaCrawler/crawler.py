@@ -2,7 +2,7 @@ import selenium.webdriver as webdriver
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-
+import pandas as pd
 
 def crawl_a_page(browser, url):
     maxTry = 30
@@ -47,12 +47,12 @@ def crawl_a_page(browser, url):
             pass
 
         page += 1
-        pages = browser.find_element_by_css_selector('.c-pager__items')
-        j = 2
-
+        pages = browser.find_elements_by_css_selector('.c-pager__items li')
+        j = 1
+        
+        temp=0
         while True:
-            nexPage = pages.find_element_by_css_selector(
-                'ul > li:nth-child('+str(j) + ') a')
+            nexPage = pages[j].find_element_by_css_selector('a')
             if page == int(nexPage.get_attribute('data-page')):
                 while True:
                     try:
@@ -60,11 +60,20 @@ def crawl_a_page(browser, url):
                             break
 
                         nexPage.click()
+                        temp=1
                         break
                     except:
                         tries += 1
 
-                        sleep(2)
+                        sleep(1)
                         pass
                 break
             j += 1
+            if temp>0:
+                break
+
+
+# if __name__ == "__main__":
+browser = webdriver.Chrome('/usr/bin/chromedriver')
+url = 'https://www.digikala.com/product/dkp-2117141/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-8-m1908c3jg-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-64-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA'
+    
